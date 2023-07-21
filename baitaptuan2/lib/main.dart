@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:baitaptuan2/ProductDetailScreen.dart';
+
+List<String> productList = [
+  'Sản phẩm 1',
+  'Sản phẩm 2',
+  'Sản phẩm 3',
+
+];
 
 void main() {
   runApp(
@@ -53,8 +61,10 @@ class MyHomeScreen extends StatelessWidget {
 
                 ElevatedButton(
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Nút đã được bấm')));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ProductListScreen()),
+                      );
                     },
                     child: Text('Click Button!')),
               ],
@@ -86,3 +96,45 @@ Widget buildRowLayout() {
     ],
   );
 }
+class ProductListScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Danh sách sản phẩm'),
+      ),
+      body: ListView.builder(
+        itemCount: productList.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              // Xử lý sự kiện khi người dùng nhấp vào sản phẩm
+              onProductTapped(context,index);
+            },
+            child: ListTile(
+              title: Text(productList[index]),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  void onProductTapped(BuildContext context, int index) {
+    // Lấy tên sản phẩm tương ứng với chỉ số index trong danh sách sản phẩm
+    String productName = productList[index];
+
+    // Điều hướng sang màn hình chi tiết sản phẩm và chuyển tên sản phẩm qua
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProductDetailScreen(productName: productName),
+      ),
+    );
+  }
+}
+
+
+
+
+
